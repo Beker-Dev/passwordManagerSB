@@ -17,19 +17,12 @@ public class AbstractEntity {
     private Long id;
 
     @Getter
-    @Setter
-    @Value("true")
-    @Column(name="isActive", nullable=false)
-    private Boolean isActive;
-
-    @Getter
     @Column(name="createdAt", nullable=false)
     private LocalDateTime createdAt;
 
     @Getter
     @Column(name="updatedAt", nullable=false)
     private LocalDateTime updatedAt;
-
 
     @PrePersist
     public void setCreatedAtTime() {
