@@ -15,6 +15,11 @@ public class Password extends AbstractEntity {
 
     @Getter
     @Setter
+    @Column(name="description")
+    private String description;
+
+    @Getter
+    @Setter
     @Column(name="url")
     private String url;
 
