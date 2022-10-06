@@ -38,7 +38,7 @@ public class PasswordController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") Long id) {
         try {
-            return ResponseEntity.ok().body(this.passwordService.findById(id).get());
+            return ResponseEntity.ok().body(this.passwordService.findById(id));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
