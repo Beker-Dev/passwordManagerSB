@@ -15,15 +15,10 @@ public class PasswordService {
     private PasswordRepository passwordRepository;
 
     public Password save(Password password) {
-        try {
-            CipherPw cipherPw = new CipherPw();
-            String encryptedPassword = cipherPw.encrypt(password.getPassword());
-            password.setPassword(encryptedPassword);
-            return this.passwordRepository.save(password);
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        CipherPw cipherPw = new CipherPw();
+        String encryptedPassword = cipherPw.encrypt(password.getPassword());
+        password.setPassword(encryptedPassword);
+        return this.passwordRepository.save(password);
     }
 
     public Password update(Password password) {
@@ -42,19 +37,20 @@ public class PasswordService {
     }
 
     public Password findById(Long id) {
-        try {
-            Password password = this.passwordRepository.findById(id).get();
-            CipherPw cipherPw = new CipherPw();
-            String decryptedPassword = cipherPw.decrypt(password.getPassword());
-            password.setPassword(decryptedPassword);
-            return password;
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        Password password = this.passwordRepository.findById(id).get();
+        CipherPw cipherPw = new CipherPw();
+        String decryptedPassword = cipherPw.decrypt(password.getPassword());
+        password.setPassword(decryptedPassword);
+        return password;
     }
 
     public Page<Password> findAll(Pageable pageable) {
-        return this.passwordRepository.findAll(pageable);
+        Page<Password> passwords = this.passwordRepository.findAll(pageable);
+        CipherPw cipherPw = new CipherPw();
+        for (Password password : passwords) {
+            String decryptedPassword = cipherPw.decrypt(password.getPassword());
+            password.setPassword(decryptedPassword);
+        }
+        return passwords;
     }
 }
