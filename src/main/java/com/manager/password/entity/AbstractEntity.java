@@ -2,7 +2,6 @@ package com.manager.password.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,17 +16,15 @@ public class AbstractEntity {
     private Long id;
 
     @Getter
-    @Column(name="createdAt", nullable=false)
+    @Column(name="createdAt")
     private LocalDateTime createdAt;
 
     @Getter
-    @Column(name="updatedAt", nullable=false)
+    @Column(name="updatedAt")
     private LocalDateTime updatedAt;
 
     @PrePersist
-    public void setCreatedAtTime() {
-        this.createdAt = LocalDateTime.now();
-    }
+    public void setCreatedAtTime() {this.createdAt = LocalDateTime.now();}
 
     @PreUpdate
     public void setUpdatedAtTime() {
