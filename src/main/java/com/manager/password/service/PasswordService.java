@@ -4,9 +4,11 @@ import com.manager.password.entity.Password;
 import com.manager.password.repository.PasswordRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class PasswordService {
     private PasswordRepository passwordRepository;
 
