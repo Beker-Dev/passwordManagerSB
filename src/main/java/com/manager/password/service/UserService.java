@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -14,11 +15,21 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User save(User user) {return this.userRepository.save(user);}
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public User save(User user) {
+        user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+        return this.userRepository.save(user);
+    }
 
     public User update(User user) {
-        if (this.userRepository.findById(user.getId()).isPresent()) {
-            return this.userRepository.save(user);
+        Optional<User> oldUser = this.userRepository.findById(user.getId());
+        if (oldUser.isPresent()) {
+            if (this.passwordEncoder.matches(user.getPassword(), oldUser.get().getPassword())) {
+                return this.save(user);
+            }
+            throw new RuntimeException("Password invalid");
         }
         throw new RuntimeException("User not found");
     }
