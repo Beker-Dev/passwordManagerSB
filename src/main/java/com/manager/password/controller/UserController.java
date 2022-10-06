@@ -3,7 +3,6 @@ package com.manager.password.controller;
 import com.manager.password.entity.User;
 import com.manager.password.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,28 +15,53 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<User> save(@RequestBody User user) {
-        return ResponseEntity.ok().body(this.userService.save(user));
+    public ResponseEntity<?> save(@RequestBody User user) {
+        try {
+            return ResponseEntity.ok().body(this.userService.save(user));
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping
-    public ResponseEntity<Page<User>> findAll(Pageable pageable) {
-        return ResponseEntity.ok().body(this.userService.findAll(pageable));
+    public ResponseEntity<?> findAll(Pageable pageable) {
+        try {
+            return ResponseEntity.ok().body(this.userService.findAll(pageable));
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> findById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok().body(this.userService.findById(id).get());
+    public ResponseEntity<?> findById(@PathVariable("id") Long id) {
+        try {
+            return ResponseEntity.ok().body(this.userService.findById(id).get());
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping()
-    public ResponseEntity<User> update(@RequestBody User user) {
-        return ResponseEntity.ok().body(this.userService.save(user));
+    public ResponseEntity<?> update(@RequestBody User user) {
+        try {
+            return ResponseEntity.ok().body(this.userService.update(user));
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @DeleteMapping
-    public ResponseEntity<User> delete(@RequestBody User user) {
-        this.userService.delete(user);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> delete(@RequestBody User user) {
+        try {
+            this.userService.delete(user);
+            return ResponseEntity.ok().build();
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

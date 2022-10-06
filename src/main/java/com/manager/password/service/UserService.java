@@ -16,13 +16,24 @@ public class UserService {
 
     public User save(User user) {return this.userRepository.save(user);}
 
-    public User update(Long id, User user) {return this.userRepository.save(user);}
+    public User update(User user) {
+        if (this.userRepository.findById(user.getId()).isPresent()) {
+            return this.userRepository.save(user);
+        }
+        throw new RuntimeException("User not found");
+    }
+
+    public void delete(User user) {
+        if (this.userRepository.findById(user.getId()).isPresent()) {
+            this.userRepository.delete(user);
+            return;
+        }
+        throw new RuntimeException("User not found");
+    }
 
     public Optional<User> findById(Long id) {return this.userRepository.findById(id);}
 
     public Page<User> findAll(Pageable pageable) {
         return this.userRepository.findAll(pageable);
     }
-
-    public void delete(User user) {this.userRepository.delete(user);}
 }

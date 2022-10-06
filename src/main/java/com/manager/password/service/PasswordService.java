@@ -16,11 +16,24 @@ public class PasswordService {
 
     public Password save(Password password) {return this.passwordRepository.save(password);}
 
+    public Password update(Password password) {
+        if (this.passwordRepository.findById(password.getId()).isPresent()) {
+            return this.passwordRepository.save(password);
+        }
+        throw new RuntimeException("Password not found");
+    }
+
+    public void delete(Password password) {
+        if (this.passwordRepository.findById(password.getId()).isPresent()) {
+            this.passwordRepository.delete(password);
+            return;
+        }
+        throw new RuntimeException("Password not found");
+    }
+
     public Optional<Password> findById(Long id) {return this.passwordRepository.findById(id);}
 
     public Page<Password> findAll(Pageable pageable) {
         return this.passwordRepository.findAll(pageable);
     }
-
-    public void delete(Password password) {this.passwordRepository.delete(password);}
 }
