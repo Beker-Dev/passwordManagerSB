@@ -29,13 +29,18 @@
             </p>
         </div>
         <div class="field">
+            <p class="control has-icons-left">
+                <input class="input" type="password" placeholder="Confirmar Senha" v-model="confirmPw">
+                <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                </span>
+            </p>
+        </div>
+        <div class="field">
             <p class="control">
                 <div class="buttons">
-                    <button class="button is-success" @click="onClickLogin()">
-                    Login
-                </button>
                 <button class="button is-link" @click="onClickRegister()">
-                    Registrar nova conta
+                    Registrar
                 </button>
                 </div>
             </p>
@@ -52,11 +57,12 @@ import { UserClient } from '@/client/UserClient';
 import { setCookie, getCookie, removeCookie } from "typescript-cookie";
 import { AuthUtils } from '@/utils/AuthUtils';
 
-export default class Login extends Vue {
+export default class UserRegister extends Vue {
     private notification: Notification = new Notification()
     private userClient!: UserClient
     private user: User = new User()
     private authUtils: AuthUtils = new AuthUtils()
+    private confirmPw: String
 
     public mounted(): void {
         this.redirectPage()
@@ -74,22 +80,30 @@ export default class Login extends Vue {
         this.notification = new Notification()
     }
 
-    private onClickLogin(): void {
-        this.userClient.login(this.user)
-        .then(
-        success => {
-          this.user = success.data
-          this.notification = this.notification.new(true, 'notification is-success', 'Login realizado com sucesso!')
-          this.saveCredentials()
-        }, error => {
-          this.notification = this.notification.new(true, 'notification is-danger', 'Credenciais Invalidas')
-          this.onClickClean()
+    private onClickRegister(): void {
+        if (this.checkPw()) {
+            this.userClient.save(this.user)
+            .then(
+                success => {
+                    this.user = success.data
+                    this.notification = this.notification.new(true, 'notification is-success', 'Usuario registrado com sucesso!')
+                    this.saveCredentials()
+                    this.onClickClean()
+                }, error => {
+                    this.notification = this.notification.new(true, 'notification is-danger', 'Erro ao registrar ' + error)
+                    this.onClickClean()
+                }
+            )
         }
-      )
     }
 
-    private onClickRegister(): void {
-        this.$router.push({ name: 'user-register' })
+    private checkPw(): boolean {
+        if (this.user.password != this.confirmPw) {
+            this.notification = this.notification.new(true, 'notification is-danger', 'Senhas nao conferem')
+            this.onClickClean()
+            return false
+        }
+        return true
     }
 
     private onClickClean(): void {
@@ -99,7 +113,6 @@ export default class Login extends Vue {
     private saveCredentials(): void {
         removeCookie("access")
         setCookie("access", this.user.id, {expires: 1})
-        this.$router.push({ name: 'password' })
     }
 }
 </script>
