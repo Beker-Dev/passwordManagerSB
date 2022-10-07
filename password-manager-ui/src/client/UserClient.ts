@@ -10,7 +10,7 @@ export class userClient {
     constructor() {
         this.axiosClient = axios.create({
             baseURL: 'http://localhost:8080/api/users',
-            headers: {'Content-type' : 'application/json'}
+            headers: { "Content-Type": "application/json" },
         });
     }
 
@@ -60,7 +60,7 @@ export class userClient {
 
     public async delete(user: User): Promise<void> {
         try {
-            return (await this.axiosClient.delete('/', user)).data
+            return (await this.axiosClient.delete(`/${user.id}`)).data
         } catch (error:any) {
             return Promise.reject(error.response)
         }

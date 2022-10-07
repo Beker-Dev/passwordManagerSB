@@ -10,7 +10,7 @@ export class PasswordClient {
     constructor() {
         this.axiosClient = axios.create({
             baseURL: 'http://localhost:8080/api/passwords',
-            headers: {'Content-type' : 'application/json'}
+            headers: { "Content-Type": "application/json" },
         });
     }
 
@@ -58,9 +58,9 @@ export class PasswordClient {
         }
     }
 
-    public async delete(password: Password): Promise<void> {
+    public async delete(password: Password): Promise<any> {
         try {
-            return (await this.axiosClient.delete('/', password)).data
+            return (await this.axiosClient.delete(`/${password.id}`)).data
         } catch (error:any) {
             return Promise.reject(error.response)
         }
