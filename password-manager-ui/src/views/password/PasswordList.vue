@@ -13,7 +13,6 @@
       <tr style="background-color: hsl(0, 0%, 29%)">
         <th style="color: #fff;">ID</th>
         <th style="color: #fff;">Nome</th>
-        <th style="color: #fff;">Descrição</th>
         <th style="color: #fff;">URL</th>
         <th style="color: #fff;">Senha</th>
         <th style="color: #fff;">Opções</th>
@@ -23,7 +22,6 @@
       <tr v-for="item in passwordList" :key="item.id">
         <th>{{ item.id }}</th>  
         <th>{{ item.name }}</th>
-        <th>{{ item.description }}</th>
         <th>{{ item.url }}</th>
         <th>{{ item.password }}</th>
         <th>
