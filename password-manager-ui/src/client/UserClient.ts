@@ -2,6 +2,7 @@ import { User } from "@/model/UserModel";
 import { PageRequest } from "@/model/page/page-request";
 import { PageResponse } from "@/model/page/page-response";
 import axios, { AxiosInstance } from "axios";
+import { getCookie } from "typescript-cookie";
 
 
 export class UserClient {
@@ -10,7 +11,7 @@ export class UserClient {
     constructor() {
         this.axiosClient = axios.create({
             baseURL: 'http://localhost:8080/api/users',
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", "access": getCookie("access") },
         });
     }
 
@@ -61,6 +62,14 @@ export class UserClient {
     public async update(user: User): Promise<any> {
         try {
             return (await this.axiosClient.put('/login', user)).data
+        } catch (error:any) {
+            return Promise.reject(error.response)
+        }
+    }
+
+    public async updatePassword(user: User): Promise<any> {
+        try {
+            return (await this.axiosClient.put('/update-password', user)).data
         } catch (error:any) {
             return Promise.reject(error.response)
         }

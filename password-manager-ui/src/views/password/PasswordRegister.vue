@@ -80,7 +80,6 @@ export default class passwordForm extends Vue {
 
     private getUser(): void {
         this.user.id = (getCookie("access") as any)
-        console.log(this.user.id)
         this.password.user = this.user
     }
 

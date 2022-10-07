@@ -44,6 +44,21 @@ public class UserService {
         throw new RuntimeException("User not found");
     }
 
+    public User updatePassword(User user, Long userId) {
+        Optional<User> oldUser = this.userRepository.findById(user.getId());
+        if (oldUser.isPresent()) {
+            if (this.equalPw(user.getPassword(), oldUser.get().getPassword())) {
+                if (user.getId().equals(userId)) {
+                    user.setPassword(user.getNewPw());
+                    return this.save(user);
+                }
+                throw new RuntimeException("User not allowed");
+            }
+            throw new RuntimeException("Password invalid");
+        }
+        throw new RuntimeException("User not found");
+    }
+
     public void delete(Long id) {
         Optional<User> user = this.userRepository.findById(id);
         if (user.isPresent()) {

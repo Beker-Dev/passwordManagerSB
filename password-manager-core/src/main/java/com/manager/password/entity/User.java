@@ -19,4 +19,22 @@ public class User extends AbstractEntity {
     @Setter
     @Column(name="password", nullable = false)
     private String password;
+
+    @Getter
+    @Setter
+    private String newPw;
+
+    public User(String username, String password, String newPw) {
+        this.username = username;
+        this.password = password;
+        this.newPw = newPw;
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public User() {
+    }
 }

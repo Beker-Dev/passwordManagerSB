@@ -64,6 +64,17 @@ public class UserController {
         }
     }
 
+    @PutMapping("/update-password")
+    public ResponseEntity<?> updatePassword(@RequestBody User user, @RequestHeader("access") Long userId) {
+        try {
+            return ResponseEntity.ok().body(this.userService.updatePassword(user, userId));
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {

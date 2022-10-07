@@ -18,6 +18,7 @@
               <li><button class="button is-white is-fullwidth" @click="onClickLogin()">Entrar</button></li>
               <li><button class="button is-white is-fullwidth" @click="onClickLogout()">Sair</button></li>
               <li><button class="button is-white is-fullwidth" @click="onClickRegister()">Registrar-se</button></li>
+              <li><button class="button is-white is-fullwidth" @click="onClickUpdatePw()">Alterar Senha</button></li>
             </ul>
           </aside>
         </nav>
@@ -57,6 +58,10 @@
 
     private onClickRegister(): void {
       this.$router.push({ name: 'user-register' })
+    }
+
+    private onClickUpdatePw(): void {
+      this.$router.push({ name: 'user-update-pw' })
     }
 
   }

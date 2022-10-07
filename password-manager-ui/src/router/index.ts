@@ -44,6 +44,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'user-register',
     component: () => import("../views/user/UserRegister.vue")
   },
+  {
+    path: '/usuarios/editar-senha',
+    name: 'user-update-pw',
+    component: () => import("../views/user/UserUpdatePassword.vue")
+  },
 ]
 
 const router = createRouter({
