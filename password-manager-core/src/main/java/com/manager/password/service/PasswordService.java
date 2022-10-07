@@ -1,6 +1,7 @@
 package com.manager.password.service;
 
 import com.manager.password.entity.Password;
+import com.manager.password.entity.User;
 import com.manager.password.repository.PasswordRepository;
 import com.manager.password.utils.CipherPw;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,16 +40,16 @@ public class PasswordService {
         throw new RuntimeException("Password not found");
     }
 
-    public Password findById(Long id) {
-        Password password = this.passwordRepository.findById(id).get();
+    public Password findById(Long id, Long userId) {
+        Password password = this.passwordRepository.findById(id, userId).get();
         CipherPw cipherPw = new CipherPw();
         String decryptedPassword = cipherPw.decrypt(password.getPassword());
         password.setPassword(decryptedPassword);
         return password;
     }
 
-    public Page<Password> findAll(Pageable pageable) {
-        Page<Password> passwords = this.passwordRepository.findAll(pageable);
+    public Page<Password> findAll(Pageable pageable, Long userId) {
+        Page<Password> passwords = this.passwordRepository.findAll(pageable, userId);
         CipherPw cipherPw = new CipherPw();
         for (Password password : passwords) {
             String decryptedPassword = cipherPw.decrypt(password.getPassword());

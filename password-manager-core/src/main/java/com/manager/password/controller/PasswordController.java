@@ -1,6 +1,7 @@
 package com.manager.password.controller;
 
 import com.manager.password.entity.Password;
+import com.manager.password.entity.User;
 import com.manager.password.service.PasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -26,9 +27,9 @@ public class PasswordController {
     }
 
     @GetMapping
-    public ResponseEntity<?> findAll(Pageable pageable) {
+    public ResponseEntity<?> findAll(Pageable pageable, @RequestHeader("access") Long userId) {
         try {
-            return ResponseEntity.ok().body(this.passwordService.findAll(pageable));
+            return ResponseEntity.ok().body(this.passwordService.findAll(pageable, userId));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -36,9 +37,9 @@ public class PasswordController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<?> findById(@PathVariable("id") Long id, @RequestHeader("access") Long userId) {
         try {
-            return ResponseEntity.ok().body(this.passwordService.findById(id));
+            return ResponseEntity.ok().body(this.passwordService.findById(id, userId));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

@@ -2,6 +2,7 @@ import { Password } from "@/model/PasswordModel";
 import { PageRequest } from "@/model/page/page-request";
 import { PageResponse } from "@/model/page/page-response";
 import axios, { AxiosInstance } from "axios";
+import { getCookie } from "typescript-cookie";
 
 
 export class PasswordClient {
@@ -10,7 +11,7 @@ export class PasswordClient {
     constructor() {
         this.axiosClient = axios.create({
             baseURL: 'http://localhost:8080/api/passwords',
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", "access": getCookie("access") },
         });
     }
 
