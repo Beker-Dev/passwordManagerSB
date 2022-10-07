@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -56,6 +57,16 @@ public class PasswordService {
 
     public Page<Password> findAll(Pageable pageable, Long userId) {
         Page<Password> passwords = this.passwordRepository.findAll(pageable, userId);
+        CipherPw cipherPw = new CipherPw();
+        for (Password password : passwords) {
+            String decryptedPassword = cipherPw.decrypt(password.getPassword());
+            password.setPassword(decryptedPassword);
+        }
+        return passwords;
+    }
+
+    public Page<Password> findByDescription(Pageable pageable, String q, Long userId) {
+        Page<Password> passwords = this.passwordRepository.findByDescription(pageable, q, userId);
         CipherPw cipherPw = new CipherPw();
         for (Password password : passwords) {
             String decryptedPassword = cipherPw.decrypt(password.getPassword());

@@ -43,6 +43,26 @@ export class PasswordClient {
         }
     }
 
+    public async findByDescription(pageRequest : PageRequest, q: String): Promise<any> {
+        try {
+
+            let requestPath = `/description/${q}`
+
+            requestPath += `?page=${pageRequest.currentPage}`
+            requestPath += `&size=${pageRequest.pageSize}`
+            requestPath += `&sort=${pageRequest.sortField === undefined
+                ? '' : pageRequest.sortField},${pageRequest.direction}`
+
+            return (await this.axiosClient.get<any>(requestPath,
+                {
+                    params: { filtros: pageRequest.filter }
+                }
+            )).data
+        } catch (error:any) {
+            return Promise.reject(error.response)
+        }
+    }
+
     public async save(password: Password): Promise<any> {
         try {
             return (await this.axiosClient.post('/', password))
@@ -66,4 +86,6 @@ export class PasswordClient {
             return Promise.reject(error.response)
         }
     }
+
+
 }
