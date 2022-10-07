@@ -47,9 +47,9 @@ public class PasswordController {
     }
 
     @PutMapping()
-    public ResponseEntity<?> update(@RequestBody Password password) {
+    public ResponseEntity<?> update(@RequestBody Password password, @RequestHeader("access") Long userId) {
         try {
-            return ResponseEntity.ok().body(this.passwordService.update(password));
+            return ResponseEntity.ok().body(this.passwordService.update(password, userId));
         }
         catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -57,9 +57,9 @@ public class PasswordController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id, @RequestHeader("access") Long userId) {
         try {
-            this.passwordService.delete(id);
+            this.passwordService.delete(id, userId);
             return ResponseEntity.ok().build();
         }
         catch (Exception e) {

@@ -24,16 +24,22 @@ public class PasswordService {
         return this.passwordRepository.save(password);
     }
 
-    public Password update(Password password) {
+    public Password update(Password password, Long userId) {
         if (this.passwordRepository.findById(password.getId()).isPresent()) {
+            if (!password.getUser().getId().equals(userId)) {
+                throw new RuntimeException("User not allowed!");
+            }
             return this.save(password);
         }
         throw new RuntimeException("Password not found");
     }
 
-    public void delete(Long id) {
+    public void delete(Long id, Long userId) {
         Optional<Password> password = this.passwordRepository.findById(id);
         if (password.isPresent()) {
+            if (!password.get().getUser().getId().equals(userId)) {
+                throw new RuntimeException("User not allowed!");
+            }
             this.passwordRepository.delete(password.get());
             return;
         }
