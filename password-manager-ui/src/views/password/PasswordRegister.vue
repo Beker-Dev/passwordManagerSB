@@ -52,14 +52,24 @@ import { Vue } from 'vue-class-component';
 import { Notification } from '@/model/Notification'
 import { Password } from "@/model/PasswordModel";
 import { PasswordClient } from "@/client/PasswordClient";
+import { User } from '@/model/UserModel';
+import { getCookie } from "typescript-cookie";
 
 export default class passwordForm extends Vue {
     private passwordClient!: PasswordClient
     private password: Password = new Password()
     private notification: Notification = new Notification()
+    private user: User = new User()
 
     public mounted(): void {
         this.passwordClient = new PasswordClient()
+        this.getUser()
+    }
+
+    private getUser(): void {
+        this.user.id = (getCookie("access") as any)
+        console.log(this.user.id)
+        this.password.user = this.user
     }
 
     private onClickRegister(): void {

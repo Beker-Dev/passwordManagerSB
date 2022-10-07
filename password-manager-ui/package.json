@@ -11,6 +11,7 @@
     "axios": "^1.1.0",
     "bulma": "^0.9.4",
     "core-js": "^3.8.3",
+    "typescript-cookie": "^1.0.4",
     "vue": "^3.2.13",
     "vue-class-component": "^8.0.0-0",
     "vue-property-decorator": "^9.1.2",

@@ -23,10 +23,20 @@ public class UserService {
         return this.userRepository.save(user);
     }
 
+    public User login(User user) {
+        Optional<User> userDb =  this.userRepository.findByUsername(user.getUsername());
+        if (userDb.isPresent()) {
+            if (this.equalPw(user.getPassword(), userDb.get().getPassword())) {
+                return userDb.get();
+            }
+        }
+        throw new RuntimeException("User not found");
+    }
+
     public User update(User user) {
         Optional<User> oldUser = this.userRepository.findById(user.getId());
         if (oldUser.isPresent()) {
-            if (this.passwordEncoder.matches(user.getPassword(), oldUser.get().getPassword())) {
+            if (this.equalPw(user.getPassword(), oldUser.get().getPassword())) {
                 return this.save(user);
             }
             throw new RuntimeException("Password invalid");
@@ -47,5 +57,9 @@ public class UserService {
 
     public Page<User> findAll(Pageable pageable) {
         return this.userRepository.findAll(pageable);
+    }
+
+    private boolean equalPw(String pw1, String pw2) {
+        return this.passwordEncoder.matches(pw1, pw2);
     }
 }

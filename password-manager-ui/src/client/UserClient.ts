@@ -4,7 +4,7 @@ import { PageResponse } from "@/model/page/page-response";
 import axios, { AxiosInstance } from "axios";
 
 
-export class userClient {
+export class UserClient {
     private axiosClient: AxiosInstance;
 
     constructor() {
@@ -14,15 +14,15 @@ export class userClient {
         });
     }
 
-    public async findById(id: number): Promise<User> {
+    public async findById(id: number): Promise<any> {
         try {
-            return (await this.axiosClient.get<User>(`/${id}`)).data
+            return (await this.axiosClient.get<any>(`/${id}`)).data
         } catch (error:any) {
             return Promise.reject(error.response)
         }
     }
 
-    public async findAll(pageRequest : PageRequest): Promise<PageResponse<User>> {
+    public async findAll(pageRequest : PageRequest): Promise<any> {
         try {
 
             let requestPath = ''
@@ -32,7 +32,7 @@ export class userClient {
             requestPath += `&sort=${pageRequest.sortField === undefined
                 ? '' : pageRequest.sortField},${pageRequest.direction}`
 
-            return (await this.axiosClient.get<PageResponse<User>>(requestPath,
+            return (await this.axiosClient.get<any>(requestPath,
                 {
                     params: { filtros: pageRequest.filter }
                 }
@@ -42,7 +42,7 @@ export class userClient {
         }
     }
 
-    public async save(user: User): Promise<User> {
+    public async save(user: User): Promise<any> {
         try {
             return (await this.axiosClient.post('/', user))
         } catch (error:any) {
@@ -50,9 +50,17 @@ export class userClient {
         }
     }
 
-    public async update(user: User): Promise<User> {
+    public async login(user: User): Promise<any> {
         try {
-            return (await this.axiosClient.put('/', user)).data
+            return (await this.axiosClient.post('/login', user))
+        } catch (error:any) {
+            return Promise.reject(error.response)
+        }
+    }
+
+    public async update(user: User): Promise<any> {
+        try {
+            return (await this.axiosClient.put('/login', user)).data
         } catch (error:any) {
             return Promise.reject(error.response)
         }

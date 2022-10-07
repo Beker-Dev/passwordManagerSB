@@ -32,7 +32,6 @@
       </tr>
       </tbody>
     </table>
-    <pagination />
   </template>
   
   <script lang="ts">
@@ -41,13 +40,6 @@
   import { PageResponse } from '@/model/page/page-response'
   import { Password } from '@/model/PasswordModel';
   import { PasswordClient } from '@/client/PasswordClient';
-  import { Pagination } from '@/components/Pagination.vue';
-
-  @Options({
-    components: {
-      Pagination
-    }
-  })
 
   export default class PasswordList extends Vue {
     private pageRequest: PageRequest = new PageRequest()

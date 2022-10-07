@@ -9,7 +9,7 @@ export class PageRequest {
     constructor() {
         this.filter = ''
         this.currentPage = 0
-        this.pageSize = 10
+        this.pageSize = 1000
         this.direction = 'asc'
     }
 
