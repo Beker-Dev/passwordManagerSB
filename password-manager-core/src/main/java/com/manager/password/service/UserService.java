@@ -34,9 +34,10 @@ public class UserService {
         throw new RuntimeException("User not found");
     }
 
-    public void delete(User user) {
-        if (this.userRepository.findById(user.getId()).isPresent()) {
-            this.userRepository.delete(user);
+    public void delete(Long id) {
+        Optional<User> user = this.userRepository.findById(id);
+        if (user.isPresent()) {
+            this.userRepository.delete(user.get());
             return;
         }
         throw new RuntimeException("User not found");

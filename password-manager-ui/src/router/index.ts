@@ -29,6 +29,11 @@ const routes: Array<RouteRecordRaw> = [
     props: (router) => ({ id: router.params.id }),
     component: () => import("../views/password/PasswordEdit.vue")
   },
+  {
+    path: '/senhas/cadastrar',
+    name: 'password-register',
+    component: () => import("../views/password/PasswordRegister.vue")
+  },
 ]
 
 const router = createRouter({

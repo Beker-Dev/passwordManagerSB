@@ -2,14 +2,7 @@
     <div class="columns">
       <div class="column is-12 is-size-3">
         Lista de Senhas
-      </div>
-    </div>
-  
-    <div class="columns">
-      <div class="column is-2">
-        <router-link class="link-cad" to="/medico/cadastrar">
-          <button class="button btn-cadastrar" style="background-color: green; color: white">Cadastrar</button>
-        </router-link>
+      <button @click="onClickRegisterPage()" class="button is-success">Cadastrar</button>
       </div>
     </div>
   
@@ -23,7 +16,6 @@
         <th style="color: #fff;">Descrição</th>
         <th style="color: #fff;">URL</th>
         <th style="color: #fff;">Senha</th>
-        <!-- <th style="color: #fff;">Usuário</th> -->
         <th style="color: #fff;">Opções</th>
       </tr>
       </thead>
@@ -34,21 +26,28 @@
         <th>{{ item.description }}</th>
         <th>{{ item.url }}</th>
         <th>{{ item.password }}</th>
-        <!-- <th>{{ item.user?.username }}</th> -->
         <th>
-          <button @click="onClickDetailPage(item.id)" style="background-color: dodgerblue; color: white" class="button btn-detalhar">Detalhar</button>
+          <button @click="onClickDetailPage(item.id)" class="button is-link">Detalhar</button>
         </th>
       </tr>
       </tbody>
     </table>
+    <pagination />
   </template>
   
   <script lang="ts">
-  import { Vue } from 'vue-class-component';
+  import { Vue, Options } from 'vue-class-component';
   import { PageRequest } from '@/model/page/page-request'
   import { PageResponse } from '@/model/page/page-response'
   import { Password } from '@/model/PasswordModel';
   import { PasswordClient } from '@/client/PasswordClient';
+  import { Pagination } from '@/components/Pagination.vue';
+
+  @Options({
+    components: {
+      Pagination
+    }
+  })
 
   export default class PasswordList extends Vue {
     private pageRequest: PageRequest = new PageRequest()
@@ -72,8 +71,12 @@
           )
     }
 
-    private onClickDetailPage(id: number){
+    private onClickDetailPage(id: number): void {
       this.$router.push({ name: 'password-detail', params: { id: id } })
+    }
+
+    private onClickRegisterPage(): void {
+      this.$router.push({ name: 'password-register' })
     }
   }
   </script>

@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 public class PasswordService {
@@ -28,9 +30,10 @@ public class PasswordService {
         throw new RuntimeException("Password not found");
     }
 
-    public void delete(Password password) {
-        if (this.passwordRepository.findById(password.getId()).isPresent()) {
-            this.passwordRepository.delete(password);
+    public void delete(Long id) {
+        Optional<Password> password = this.passwordRepository.findById(id);
+        if (password.isPresent()) {
+            this.passwordRepository.delete(password.get());
             return;
         }
         throw new RuntimeException("Password not found");

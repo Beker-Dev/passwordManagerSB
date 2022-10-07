@@ -54,10 +54,10 @@ public class UserController {
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> delete(@RequestBody User user) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
-            this.userService.delete(user);
+            this.userService.delete(id);
             return ResponseEntity.ok().build();
         }
         catch (Exception e){

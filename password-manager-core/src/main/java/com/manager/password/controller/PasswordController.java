@@ -55,10 +55,10 @@ public class PasswordController {
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> delete(@RequestBody Password password) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
-            this.passwordService.delete(password);
+            this.passwordService.delete(id);
             return ResponseEntity.ok().build();
         }
         catch (Exception e) {

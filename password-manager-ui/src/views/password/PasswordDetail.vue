@@ -1,6 +1,21 @@
 <template>
   <div class="container">
     <h1 class="titulo" >Senha de acesso para: {{password.url}}</h1>
+
+    <div class="columns" v-if="notification.ativo">
+        <div class="column is-12">
+          <div :class="notification.classe">
+            <button @click="onClickCloseNotification()" class="delete" ></button>
+            {{ notification.mensagem }}
+          </div>
+        </div>
+      </div>
+
+    <div class="field">
+      <div class="control">
+        <i>Id: {{password.id}}</i>
+      </div>
+    </div>
     <div class="field">
       <div class="control">
         <i>Nome: {{password.name}}</i>
@@ -25,7 +40,7 @@
     <div class="buttons">
       <button class="button is-warning" @click="onClickBack()">Voltar</button>
       <button @click="onClickEditPage(password.id)" class="button is-link">Editar</button>
-      <button class="button is-danger">Excluir</button>
+      <button class="button is-danger" @click="onClickDelete()">Excluir</button>
     </div>
   </div>
 </template>
@@ -35,10 +50,14 @@ import { Vue } from 'vue-class-component'
 import { Prop } from 'vue-property-decorator'
 import { PasswordClient } from '@/client/PasswordClient'
 import { Password } from '@/model/PasswordModel'
+import { Notification } from '@/model/Notification'
+
 
 export default class passwordFormDetalhar extends Vue {
   private passwordClient!: PasswordClient
   private password: Password = new Password()
+  private notification : Notification = new Notification()
+
 
   @Prop({type: Number, required: false})
   private readonly id!: number
@@ -65,7 +84,25 @@ export default class passwordFormDetalhar extends Vue {
 
   private onClickBack(): void {
         this.$router.push({ name: 'password' })
+  }
+
+  private onClickDelete(): void {
+    var deleteConfirmation = confirm("Confirma a remoção da senha de acesso para " + this.password.url + "?")
+    if (deleteConfirmation) {
+      this.passwordClient.delete(this.password)
+      .then(
+            success => {
+                this.notification = this.notification.new(true, 'notification is-success', 'Senha removida com sucesso!')
+            }, error => {
+                this.notification = this.notification.new(true, 'notification is-danger', 'Erro ao remover a senha: ' + error)
+            }
+        )
     }
+  }
+
+  private onClickCloseNotification(): void {
+      this.notification = new Notification()
+  }
 }
 
 </script>
