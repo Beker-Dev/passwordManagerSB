@@ -12,7 +12,7 @@
             <p class="menu-label"> Menu Principal </p>
             <ul class="menu-list">
               <li><router-link to="/senhas">Senhas</router-link></li>
-              <li><router-link to="/senhas">Usuario</router-link></li>
+              <li><router-link to="/usuarios/login">Usuario</router-link></li>
             </ul>
           </aside>
         </nav>
