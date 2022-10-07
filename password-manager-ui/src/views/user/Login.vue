@@ -45,15 +45,24 @@ import { Notification } from '@/model/Notification'
 import { User } from '@/model/UserModel';
 import { UserClient } from '@/client/UserClient';
 import { setCookie, getCookie } from "typescript-cookie";
+import { AuthUtils } from '@/utils/AuthUtils';
 
 export default class Login extends Vue {
     private notification: Notification = new Notification()
     private userClient!: UserClient
     private user: User = new User()
+    private authUtils: AuthUtils = new AuthUtils()
 
     public mounted(): void {
-        this.checkAuthenticated()
+        this.redirectPage()
         this.userClient = new UserClient()
+    }
+
+    public redirectPage(): void {
+        var authenticated = this.authUtils.checkAuthenticated()
+        if (authenticated) {
+            this.$router.push({ name: 'password' })
+        }
     }
 
     private onClickCloseNotification(): void {
@@ -83,11 +92,11 @@ export default class Login extends Vue {
         setCookie("access", this.user.id, {expires: 1})
     }
 
-    private checkAuthenticated(): void {
-        if (getCookie("access")) {
-            this.$router.push({ name: 'password' })
-        }
-    }
+    // private checkAuthenticated(): void {
+    //     if (getCookie("access")) {
+    //         this.$router.push({ name: 'password' })
+    //     }
+    // }
 }
 </script>
 

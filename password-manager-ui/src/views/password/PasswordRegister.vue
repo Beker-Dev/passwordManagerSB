@@ -54,16 +54,28 @@ import { Password } from "@/model/PasswordModel";
 import { PasswordClient } from "@/client/PasswordClient";
 import { User } from '@/model/UserModel';
 import { getCookie } from "typescript-cookie";
+import { AuthUtils } from '@/utils/AuthUtils';
+
 
 export default class passwordForm extends Vue {
     private passwordClient!: PasswordClient
     private password: Password = new Password()
     private notification: Notification = new Notification()
     private user: User = new User()
+    private authUtils: AuthUtils = new AuthUtils()
+
 
     public mounted(): void {
+        this.redirectPage()
         this.passwordClient = new PasswordClient()
         this.getUser()
+    }
+
+    public redirectPage(): void {
+        var authenticated = this.authUtils.checkAuthenticated()
+        if (!authenticated) {
+            this.$router.push({ name: 'user-login' })
+        }
     }
 
     private getUser(): void {

@@ -40,16 +40,26 @@
   import { PageResponse } from '@/model/page/page-response'
   import { Password } from '@/model/PasswordModel';
   import { PasswordClient } from '@/client/PasswordClient';
+  import { AuthUtils } from '@/utils/AuthUtils';
 
   export default class PasswordList extends Vue {
     private pageRequest: PageRequest = new PageRequest()
     private pageResponse: PageResponse<Password> = new PageResponse()
     private passwordList: Password[] = []
     private passwordClient!: PasswordClient
+    private authUtils: AuthUtils = new AuthUtils()
 
     public mounted(): void {
+      this.redirectPage()
       this.passwordClient = new PasswordClient()
       this.listPw()
+    }
+
+    public redirectPage(): void {
+        var authenticated = this.authUtils.checkAuthenticated()
+        if (!authenticated) {
+            this.$router.push({ name: 'user-login' })
+        }
     }
 
     private listPw(): void {

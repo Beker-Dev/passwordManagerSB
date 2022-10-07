@@ -56,19 +56,32 @@ import { Password } from '@/model/PasswordModel'
 import { Notification } from '@/model/Notification'
 import { PasswordClient } from '@/client/PasswordClient'
 import { Prop } from "vue-property-decorator";
+import { AuthUtils } from '@/utils/AuthUtils';
+
 
 export default class passwordFormEditar extends Vue {
   private passwordClient!: PasswordClient
   private password: Password = new Password()
   private notification: Notification = new Notification()
+  private authUtils: AuthUtils = new AuthUtils()
+
 
   @Prop({ type: Number, required: false })
   private readonly id!: number
 
   public mounted(): void {
+    this.redirectPage()
     this.passwordClient = new PasswordClient()
     this.getPassword()
   }
+
+  public redirectPage(): void {
+        var authenticated = this.authUtils.checkAuthenticated()
+        if (!authenticated) {
+            this.$router.push({ name: 'user-login' })
+        }
+    }
+
 
   private getPassword(): void {
     this.passwordClient.findById(this.id)
