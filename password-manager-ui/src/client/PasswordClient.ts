@@ -14,15 +14,15 @@ export class PasswordClient {
         });
     }
 
-    public async findById(id: number): Promise<Password> {
+    public async findById(id: number): Promise<any> {
         try {
-            return (await this.axiosClient.get<Password>(`/${id}`)).data
+            return (await this.axiosClient.get<any>(`/${id}`)).data
         } catch (error:any) {
             return Promise.reject(error.response)
         }
     }
 
-    public async findAll(pageRequest : PageRequest): Promise<PageResponse<Password>> {
+    public async findAll(pageRequest : PageRequest): Promise<any> {
         try {
 
             let requestPath = ''
@@ -32,7 +32,7 @@ export class PasswordClient {
             requestPath += `&sort=${pageRequest.sortField === undefined
                 ? '' : pageRequest.sortField},${pageRequest.direction}`
 
-            return (await this.axiosClient.get<PageResponse<Password>>(requestPath,
+            return (await this.axiosClient.get<any>(requestPath,
                 {
                     params: { filtros: pageRequest.filter }
                 }
@@ -42,7 +42,7 @@ export class PasswordClient {
         }
     }
 
-    public async save(password: Password): Promise<Password> {
+    public async save(password: Password): Promise<any> {
         try {
             return (await this.axiosClient.post('/', password))
         } catch (error:any) {
@@ -50,7 +50,7 @@ export class PasswordClient {
         }
     }
 
-    public async update(password: Password): Promise<Password> {
+    public async update(password: Password): Promise<any> {
         try {
             return (await this.axiosClient.put('/', password)).data
         } catch (error:any) {
