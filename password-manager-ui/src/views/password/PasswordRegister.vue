@@ -53,7 +53,7 @@ import { Notification } from '@/model/Notification'
 import { Password } from "@/model/PasswordModel";
 import { PasswordClient } from "@/client/PasswordClient";
 import { User } from '@/model/UserModel';
-import { getCookie } from "typescript-cookie";
+import { getCookie, removeCookie } from "typescript-cookie";
 import { AuthUtils } from '@/utils/AuthUtils';
 
 
@@ -88,7 +88,8 @@ export default class passwordForm extends Vue {
             .then(
                 success => {
                     this.notification = this.notification.new(true, 'notification is-success', 'Senha cadastrada com sucesso!')
-                    this.onClickClean()
+                    removeCookie("access")
+                    this.$router.push({ name: 'user-login' })
                 }, error => {
                     this.notification = this.notification.new(true, 'notification is-danger', 'Erro ao cadastrar senha: ' + error)
                     this.onClickClean()

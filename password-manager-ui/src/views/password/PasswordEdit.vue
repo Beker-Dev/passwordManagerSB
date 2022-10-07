@@ -98,7 +98,7 @@ export default class passwordFormEditar extends Vue {
       .then(
         success => {
           this.notification = this.notification.new(true, 'notification is-success', 'Senha atualizada com sucesso!')
-          this.onClickClean()
+          this.$router.push({ name: 'password' })
         }, error => {
           this.notification = this.notification.new(true, 'notification is-danger', 'Erro ao editar senha: ' + error)
           this.onClickClean()
@@ -133,17 +133,6 @@ export default class passwordFormEditar extends Vue {
   display: flex;
   justify-content: center;
   font-size: 30px;
-}
-
-.enums {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  margin-block-end: 20px;
-}
-
-.enum-tipo-atendimento {
-  margin-left: 40px;
 }
 
 .botoes-form {

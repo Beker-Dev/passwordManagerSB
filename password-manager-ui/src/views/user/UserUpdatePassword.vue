@@ -52,7 +52,7 @@ import { Notification } from '@/model/Notification'
 import { User } from '@/model/UserModel';
 import { UserClient } from '@/client/UserClient';
 import { AuthUtils } from '@/utils/AuthUtils';
-import { getCookie } from 'typescript-cookie';
+import { getCookie, removeCookie } from 'typescript-cookie';
 
 export default class UserRegister extends Vue {
     private notification: Notification = new Notification()
@@ -89,7 +89,8 @@ export default class UserRegister extends Vue {
                 success => {
                     this.user = success.data
                     this.notification = this.notification.new(true, 'notification is-success', 'Senha editada com sucesso!')
-                    this.onClickClean()
+                    removeCookie("access")
+                    this.$router.push({ name: 'user-login' })
                 }, error => {
                     this.notification = this.notification.new(true, 'notification is-danger', 'Erro ao editar senha ' + error)
                     this.onClickClean()
@@ -136,17 +137,6 @@ export default class UserRegister extends Vue {
     display: flex;
     justify-content: center;
     font-size: 30px;
-}
-
-.enums {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    margin-block-end: 20px;
-}
-
-.enum-tipo-atendimento {
-    margin-left: 40px;
 }
 
 .botoes-form {

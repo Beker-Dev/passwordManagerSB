@@ -131,16 +131,6 @@ export default class UserRegister extends Vue {
     font-size: 30px;
 }
 
-.enums {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    margin-block-end: 20px;
-}
-
-.enum-tipo-atendimento {
-    margin-left: 40px;
-}
 
 .botoes-form {
     display: flex;

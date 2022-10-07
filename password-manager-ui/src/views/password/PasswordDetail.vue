@@ -52,7 +52,7 @@ import { PasswordClient } from '@/client/PasswordClient'
 import { Password } from '@/model/PasswordModel'
 import { Notification } from '@/model/Notification'
 import { AuthUtils } from '@/utils/AuthUtils'
-
+import { removeCookie } from 'typescript-cookie'
 
 export default class passwordFormDetalhar extends Vue {
   private passwordClient!: PasswordClient
@@ -103,6 +103,8 @@ export default class passwordFormDetalhar extends Vue {
       .then(
             success => {
                 this.notification = this.notification.new(true, 'notification is-success', 'Senha removida com sucesso!')
+                removeCookie("access")
+                this.$router.push({ name: 'user-login' })
             }, error => {
                 this.notification = this.notification.new(true, 'notification is-danger', 'Erro ao remover a senha: ' + error)
             }
