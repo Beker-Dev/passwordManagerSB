@@ -44,7 +44,7 @@ import { Prop } from 'vue-property-decorator';
 import { Notification } from '@/model/Notification'
 import { User } from '@/model/UserModel';
 import { UserClient } from '@/client/UserClient';
-import { setCookie, getCookie } from "typescript-cookie";
+import { setCookie, getCookie, removeCookie } from "typescript-cookie";
 import { AuthUtils } from '@/utils/AuthUtils';
 
 export default class Login extends Vue {
@@ -89,14 +89,9 @@ export default class Login extends Vue {
     }
 
     private saveCredentials(): void {
+        removeCookie("access")
         setCookie("access", this.user.id, {expires: 1})
     }
-
-    // private checkAuthenticated(): void {
-    //     if (getCookie("access")) {
-    //         this.$router.push({ name: 'password' })
-    //     }
-    // }
 }
 </script>
 
