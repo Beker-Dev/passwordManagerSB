@@ -47,7 +47,7 @@ public class PasswordController {
     }
 
     @GetMapping("description/{q}")
-    public ResponseEntity<?> findByDescription(Pageable pageable, String q, @RequestHeader("access") Long userId) {
+    public ResponseEntity<?> findByDescription(Pageable pageable, @PathVariable String q, @RequestHeader("access") Long userId) {
         try {
             return ResponseEntity.ok().body(this.passwordService.findByDescription(pageable, q, userId));
         }

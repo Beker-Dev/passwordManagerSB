@@ -16,7 +16,7 @@ public interface PasswordRepository extends JpaRepository<Password, Long> {
     @Query("SELECT password FROM Password password where password.user.id = :userId ORDER BY password.id DESC")
     Page<Password> findAll(Pageable pageable, Long userId);
 
-    @Query("SELECT password FROM Password password WHERE password.description = :q AND password.user.id = :userId ORDER BY password.id DESC")
+    @Query("SELECT password FROM Password password WHERE password.description LIKE CONCAT('%', :q, '%') AND password.user.id = :userId ORDER BY password.id DESC")
     Page<Password> findByDescription(Pageable pageable, String q, Long userId);
 
     @Query("SELECT password FROM Password password where password.id = :id AND password.user.id = :userId")
